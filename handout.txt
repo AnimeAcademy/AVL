@@ -1,0 +1,41 @@
+Extend your BSTmap to AVLmap.
+
+API is exactly the same. You just add rebalancing.
+
+Implement:
+1) rotations - both left and right
+2) balance calculation
+3) AVL logic - this step will require modification of the BST insert and erase
+
+You may either copy your BSTmap implementation and add the above functionality
+or you may derive AVLmap from BSTmap, the latter is better solution, but there
+will be some complications with template inheritance. I strongly suggest
+starting with just copying BSTmap implementation, if you have time left try 
+inheritance. 
+
+Notes:
+
+you will need to know height to implement balancing. You may 
+H1) calculate height "on demand"
+H2) maintain height as data field in each node and "maintain" it - modify during insert, deletes, etc.
+In general either of the 2 may be the best, but for this assignment H2) is definitely more efficient.
+
+You will also need "index" operator. There are 2 ways to implement it:
+I1) start in-order-traversal start counting. Stop when at the required index.
+I2) maintain a count of the number of nodes in the left subtree (in each node):
+
+                                     10 (3)
+                                   /         \ 
+                                  /           \
+                               5(1)            15(3)
+                              /   \            /   \ 
+                             /     \          /     \
+                           3(0)   8(0)      13(1)  18(0)
+                                          /   \        \
+                                         /     \        \
+                                      12(0)   14(0)    20(0) 
+
+To find index i - compare i and the count on the left subtree:
+case (i <= count on left) - continue searching for index i in the left subtree
+case (i == count on left +1) - current node is index i 
+otherwise continue searching for index  "i - count on left - 1" in the right subtree 
